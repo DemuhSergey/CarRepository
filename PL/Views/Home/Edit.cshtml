@@ -1,0 +1,93 @@
+﻿@model PL.Models.CarViewModel
+
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h2>Измененить машины</h2>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            @Html.LabelFor(model => model.MarkName)
+        </div>
+        <div class="col-md-10">
+            <h4>@ViewBag.Mark</h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            @Html.LabelFor(model => model.ModelName)
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ModelName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ModelName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            @Html.LabelFor(model => model.Price)
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            @Html.LabelFor(model => model.Valume)
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Valume, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Valume, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            @Html.LabelFor(model => model.Color)
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            @Html.LabelFor(model => model.Transmission)
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Transmission, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Transmission, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.Raw("<img style='width:400px; height:290px;' src=\"data:image/jpeg;base64,"
+                      + Convert.ToBase64String(ViewBag.Image) + "\" />")
+            <br />
+            <input type="file" name="uploadImage" class="btn btn-default" />
+        </div>
+    </div>
+    
+    
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

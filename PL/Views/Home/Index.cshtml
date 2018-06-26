@@ -1,0 +1,87 @@
+﻿@model PagedList.IPagedList<PL.Models.CarViewModel>
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label">Марка: </label>
+        @Html.DropDownList("MarkName", ViewBag.Marks as SelectList,
+            new { @class = "form-control" })
+
+        <label class="control-label">Модель: </label>
+        @Html.DropDownList("ModelName", ViewBag.Models as SelectList,
+            new { @class = "form-control" })
+
+        <label class="control-label">Сортировка: </label>
+        @Html.DropDownList("sort", ViewBag.SortList as SelectList, new { @class = "form-control" })
+
+        <input type="submit" value="Filter" class="btn btn-default" />
+    </div>
+</form>
+
+<br />
+
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <h3>
+                    @Html.LabelFor(model => item.MarkName)
+                    @Html.DisplayFor(modelItem => item.MarkName)
+                </h3>
+                <h4>
+                    @Html.LabelFor(model => item.ModelName)
+                    @Html.DisplayFor(modelItem => item.ModelName)
+                </h4>
+                <h5>
+                    @Html.LabelFor(model => item.Transmission)
+                    @Html.DisplayFor(modelItem => item.Transmission)
+                </h5>
+                <h5>
+                    @Html.LabelFor(model => item.Price)
+                    @Html.DisplayFor(modelItem => item.Price)
+                </h5>
+                <h5>
+                    @Html.LabelFor(model => item.Valume)
+                    @Html.DisplayFor(modelItem => item.Valume)
+                </h5>
+                <h5>
+                    @Html.LabelFor(model => item.Color)
+                    @Html.DisplayFor(modelItem => item.Color)
+                </h5>
+                <h3>@Html.ActionLink("Edit", "Edit", new { id = item.Id })</h3>
+            </td>
+            <td>
+                @Html.Raw("<img style='width:400px; height:290px;' src=\"data:image/jpeg;base64,"
+                          + Convert.ToBase64String(item.Image) + "\" />")
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { Page = page, ViewBag.sort }), PagedListRenderOptions.PageNumbersOnly)
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#MarkName").change(function() {
+            $.get("/Home/GetModelsByMarkName",
+                { MarkName: $("#MarkName").val() },
+                function(data) {
+                    $("#ModelName").empty();
+                    $.each(data,
+                        function(index, row) {
+                            $("#ModelName").append("<option value='" + row.Name + "'>" + row.Name + "</option>")
+                        });
+                });
+        });
+    });
+</script>
